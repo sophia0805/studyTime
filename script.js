@@ -11,7 +11,10 @@ const sessionCountDisplay = document.getElementById('sessionCount');
 
 const musicPlayer = document.getElementById('music');
 const alarm = document.getElementById('alarm');
+const stopAlarm = document.getElementById('stop');
 const alarmSound = new Audio('sprites/alarm.wav');
+const crossmark1 = document.querySelector('.no1');
+const crossmark2 = document.querySelector('.no2');
 
 const resetTmr = document.getElementById('resetTimerBtn');
 const resetTodo = document.getElementById('resetTodoBtn');
@@ -28,7 +31,8 @@ const finalValue = document.getElementById("final-value");
 
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
-let play = true;
+let playAlarm = localStorage.getItem('playAlarm') === 'true' || true;
+let play = localStorage.getItem('playSound') === 'true' || true;;
 let timeLeft = 0;
 let totalTime = 0;
 let timerId = null;
@@ -60,12 +64,18 @@ const catMessages = {
     ]
 };
 
+localStorage.setItem('playAlarm', playAlarm);
+localStorage.setItem('playSound', play);
+
+//initial values
 updateSessionCount();
 progress.style.width = 0;
 studyTimeInput.value = localStorage.getItem('studyTime') || 25;
 restTimeInput.value = localStorage.getItem('restTime') || 5;
 localStorage.setItem('isStudyTime', isStudyTime);
 timerLabel.textContent = isStudyTime ? 'Time to Study! 📚' : 'Rest Time! 😴';
+crossmark1.style.display = "none";
+crossmark2.style.display = "none";
 
 function updateSessionCount() {
   sessionCountDisplay.textContent = sessionCount;
@@ -103,7 +113,7 @@ function startTimer() {
         catStatus.textContent = getRandomMessage(isStudyTime ? 'study' : 'rest');
       }
       if (timeLeft <= 0) {
-        alarmSound.play();
+        if (playAlarm){alarmSound.play();}
         clearInterval(timerId);
         timerId = null;
         if (isStudyTime) {
@@ -535,13 +545,27 @@ function onPlayerReady(event) {
 
 musicPlayer.addEventListener("click", () => {
     play = !play;
-    if (play == false){
-        player.pauseVideo();
-    } else {
+    if (play) {
         player.playVideo();
+        crossmark2.style.display = "none";
+    } else {
+        player.pauseVideo();
+        crossmark2.style.display = "block";
     }
+    localStorage.setItem('playSound', play);
 });
 
 alarm.addEventListener("click", () => {
     alarmSound.pause();
+    
+});
+
+stopAlarm.addEventListener("click", () => {
+    playAlarm = !playAlarm;
+    localStorage.setItem('playAlarm', playAlarm);
+    if (!playAlarm) {
+        crossmark1.style.display = "block";
+    } else {
+        crossmark1.style.display = "none";
+    }
 });

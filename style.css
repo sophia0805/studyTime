@@ -376,9 +376,42 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 10px;
     border-color: #ff9eb5;
 }
-
 .alarming{
     padding: 2vh; /* Add some padding */
     border-radius: 10px;
     border-color: #ff9eb5;
+}
+.no-more{
+    padding: 2vh; /* Add some padding */
+    border-radius: 10px;
+    border-color: #ff9eb5;
+}
+
+.no {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicking through to the button */
+    font-family: "Kiddosy", monospace;
+    opacity: 0.7;
+}
+
+.no1{
+    position: absolute;
+    font-size: 11vh;
+    color: #ff9eb5;
+    font-weight: bold;
+    top: 87vh;
+    left: 95vw;
+}
+
+.no2{
+    position: absolute;
+    font-size: 11vh;
+    color: #ff9eb5;
+    font-weight: bold;
+    top: 87vh;
+    left: 86.5vw;
 }
