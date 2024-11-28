@@ -231,6 +231,7 @@ function resetTodoList() {
     saveTodos();
     renderTodos();
     showAlert('Todo list has been reset!');
+    updateWheel();
 }
 
 // Initialize
