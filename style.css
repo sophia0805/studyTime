@@ -19,7 +19,7 @@ body {
     background: linear-gradient(135deg, #ffecd2, #ffcad4);
     padding: 3vh 4.3vh;
     color: #4a4a4a;
-    overflow: hidden;
+    overflow: clip;
     display: flex;
     gap: 2vh;
 }
