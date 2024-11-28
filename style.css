@@ -1,0 +1,325 @@
+@font-face {
+    font-family: 'CatPaw';
+    src: url('fonts/Meows-VGWjy.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Kiddosy';
+    src: url('fonts/Kiddosy.otf') format('truetype');
+}
+
+
+* {
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffecd2, #ffcad4);
+    padding: 2rem;
+    color: #4a4a4a;
+    overflow: hidden;
+    display: flex;  /* Add this */
+    gap: 2rem;      /* Add this */
+}
+
+.container {
+    max-width: 800px;
+}
+
+.card {
+    margin: 0 0 0 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+    border: 2px solid #ffcad4;
+    position: relative;
+}
+
+h2 {
+    font-size: clamp(3rem, 6vw, 4rem);
+    margin-bottom: 2rem;
+    font-weight: 400;
+    font-family: 'CatPaw', monospace;
+}
+
+.timer {
+    text-align: center;
+}
+
+.timer-display{
+    font-size: 4.5rem;
+    font-weight: 300;
+    color: #4a4a4a;
+    margin: 1rem 0;
+    font-family: 'CatPaw', monospace;
+}
+.timer-label {
+    font-size: 2rem;
+    color: #ff9eb5;
+    margin-bottom: 1rem;
+    font-family: 'Kiddosy', monospace;
+}
+.timer-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.settings {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+.setting-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #494444;
+    font-size: 2rem;
+    font-family: 'Kiddosy', monospace;
+}
+
+.time-input{
+    width: 80px;
+    padding: 0.5rem;
+    border: 2px solid #ffcad4;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.7rem;
+    font-family: 'CatPaw', monospace;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    background: #fff;
+    color: #4a4a4a;
+    border: 2px solid #ffcad4;
+    font-size: 1.3rem;
+    font-family: 'CatPaw', monospace;
+}
+.btn:hover{
+    background: #ffcad4;
+    transform: translateY(-2px);
+}
+.btn.primary{
+    background: #ffcad4;
+    color: #4a4a4a;
+    border: none;
+}
+.btn.primary:hover{
+    background: #ffb5c0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: #ffcad4;
+    transition: width 1s linear;
+}
+
+.session-count{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ffcad4;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-family: 'CatPaw', monospace;
+}
+
+/* reset design */
+.reset-card {
+    background: rgba(255, 245, 245, 0.9);
+    margin-top: 1.5rem;
+}
+
+.reset-card h3 {
+    font-size: 3rem;
+    color: #4a4a4a;
+    margin-bottom: 1.5rem;
+    font-weight: 550;
+    font-family: 'CatPaw', monospace;
+}
+
+.reset-controls {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a4a4a;
+    border: 2px solid #ffcad4;
+}
+
+.btn.warning {
+    background: #ffd4d4;
+    border: 2px solid #ffb5b5;
+    font-size: 1.5rem;
+    font-family: 'Kiddosy', monospace;
+}
+
+.btn.warning:hover {
+    background: #ffb5b5;
+}
+
+.img1{
+    width: 9.1rem;
+    height: 9.1rem;
+}
+
+.todo-card {
+    height: 100%;
+    overflow-y: auto;
+    width: 500px;
+    margin-right: 2rem;
+    height: calc(100vh - 5rem);
+}
+
+.todo-card h3 {
+    font-size: 2.5rem;
+    color: #4a4a4a;
+    margin-bottom: 1.5rem;
+    font-family: 'Kiddosy', monospace;
+}
+
+.todo-input {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.todo-input input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 2px solid #ffcad4;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-family: 'CatPaw', monospace;
+}
+
+.todo-list {
+    list-style: none;
+    font-family: 'Kiddosy', monospace;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #ffcad4;
+    font-size: 1.5rem;
+}
+
+.todo-item:last-child {
+    border-bottom: none;
+}
+
+.todo-item.completed {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.delete-todo {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #ff9eb5;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.todo-card h5 {
+    font-family: 'CatPaw', monospace;
+    font-size: 1rem;
+}
+
+/* random spinner */
+
+.wrapper {
+  margin-right: 0;
+  width: 40rem;
+  height: 40rem;
+  background-color: #ffffff;
+  position: absolute;
+  left: 90rem;
+  padding: 1em;
+  border-radius: 1em;
+}
+.container1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#wheel {
+  max-height: inherit;
+  width: inherit;
+  top: 0;
+  padding: 0;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#spin-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 0;
+  background: radial-gradient(#fdcf3b 50%, #d88a40 85%);
+  color: #c66e16;
+  text-transform: uppercase;
+  font-size: 1.8em;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+.img2 {
+  position: absolute;
+  width: 4em;
+  top: 45%;
+  right: -8%;
+}
+#final-value {
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 1.5em;
+  color: #202020;
+  font-weight: 500;
+}
+@media screen and (max-width: 768px) {
+  .wrapper {
+    font-size: 12px;
+  }
+  .img2 {
+    right: -5%;
+  }
+}

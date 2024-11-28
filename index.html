@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Study Session</title>
+        <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class = "container">
+            <div class = "card timer">
+                <h2>Pomodoro Study Timer</h2>
+                <div class = "session-count">Session: <span id = "sessionCount">0</span></div>
+
+                <div class="settings">
+                    <div class="setting-group">
+                        <label class="setting-label">Study Time(min)</label>
+                        <input type="number" class="time-input" id="studyTime" value="25" min="1">
+                    </div>
+                    <div class="setting-group">
+                        <label class="setting-label">Rest Time(min)</label>
+                        <input type="number" class="time-input" id="restTime" value="5" min="1">
+                    </div>
+                </div>
+
+                <div class="timer-label" id="timerLabel">Time to Study</div>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="btn primary" id="startTimer">Start</button>
+                    <button class="btn" id="resetTimer">Reset Session</button>
+                    <button class="btn" id="skipTimer">Skip</button>
+                </div>
+            </div>
+            <div class="card reset-card">
+                <h3>⚠️Reset Options⚠️</h3>
+                <div class="reset-controls">
+                    <button id="resetTimerBtn" class="btn warning">Reset Entire Timer</button>
+                    <button id="resetTodoBtn" class="btn warning">Reset To-Do List</button>
+                    <button id="resetAllBtn" class="btn warning">Reset All</button>
+                </div>
+            </div>
+            <div class="cat-images">
+                <img src="sprites\cat.png" alt = "cat" class = "img1"/>
+            </div>
+        </div>
+        <div class="todo-container">
+            <div class="card todo-card">
+                <h3>To-Do List 📝</h3>
+                <h5 id="alertElement"> </h5>
+                <div class="todo-input">
+                    <input type="text" id="todoInput" placeholder="Add a task...">
+                    <button id="addTodoBtn" class="btn primary">Add</button>
+                </div>
+                <ul id="todoList" class="todo-list"></ul>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <div class="container1">
+              <canvas id="wheel"></canvas>
+              <button id="spin-btn">Spin</button>
+              <img src="spinner-arrow-.svg" alt="spinner-arrow" class = "img2"/>
+            </div>
+            <div id="final-value">
+              <p>Click Spin!</p>
+            </div>
+        </div>
+        <!-- Chart JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+        <!-- Chart JS Plugin for displaying text over chart -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
+
+        <script src="script.js"></script>
+    </body>
+</html>
