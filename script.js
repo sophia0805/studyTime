@@ -310,7 +310,7 @@ function deleteTodo(index) {
     saveTodos();
     renderTodos();
     showAlert('Task deleted successfully!');
-    updateWheel()
+    updateWheel();
 }
 
 function toggleTodo(index) {
