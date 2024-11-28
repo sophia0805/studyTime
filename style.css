@@ -42,7 +42,7 @@ body {
 }
 
 h2 {
-    font-size: clamp(1vw, 8.5vw, 3.5vw);
+    font-size: clamp(0.5vw, 8.5vw, 3.5vw);
     margin-bottom: 2vh;
     margin-top: 1.2vh;
     font-weight: 400;
@@ -54,7 +54,7 @@ h2 {
 }
 
 .timer-display {
-    font-size: clamp(5.5vh, 8.5vw, 6.5vh);
+    font-size: clamp(0.5vw, 8.5vw, 3.5vw);
     font-weight: 300;
     color: #4a4a4a;
     margin: 2vh 0;
@@ -225,7 +225,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .todo-card h3 {
-    font-size: clamp(3.5vh, 5.5vw, 4.5vh);
+    font-size: clamp(1vh, 5.5vw, 4.5vh);
     color: #4a4a4a;
     margin-bottom: 1.5vh;
     font-family: 'Kiddosy', monospace;
@@ -246,6 +246,7 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 1.3vh;
     font-family: 'CatPaw', monospace;
     font-size: 2.7vh;
+    width: 100%
 }
 
 .todo-list {
