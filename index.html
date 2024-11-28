@@ -76,14 +76,22 @@
 
         <div class="sound">
             <div id="player" style="display: none;"></div>
-            <button id="music" class = "music-control">🎵</button>
-            <button id="alarm" class = "alarming">⏰</button>
-            <button id="stop" class = "no-more">🔔</button>
-        </div>
-
-        <div class = "no">
-            <div id="crossmark" class = "no1">x</div>
-            <div id="crossmark" class = "no2">x</div>
+            
+            <div class="button-container">
+                <button id="music" class="music-control">🎵</button>
+                <div class="no music-no">
+                    <div class="no1">x</div>
+                </div>
+            </div>
+        
+            <div class="button-container"><button id="alarm" class="alarming">⏰</button></div>
+        
+            <div class="button-container">
+                <button id="stop" class="no-more">🔔</button>
+                <div class="no bell-no">
+                    <div class="no2">x</div>
+                </div>
+            </div>
         </div>
         <!-- Chart JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>

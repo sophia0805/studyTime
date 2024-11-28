@@ -13,8 +13,8 @@ const musicPlayer = document.getElementById('music');
 const alarm = document.getElementById('alarm');
 const stopAlarm = document.getElementById('stop');
 const alarmSound = new Audio('sprites/alarm.wav');
-const crossmark1 = document.querySelector('.no1');
-const crossmark2 = document.querySelector('.no2');
+const musicCross = document.querySelector('.music-no');
+const bellCross = document.querySelector('.bell-no');
 
 const resetTmr = document.getElementById('resetTimerBtn');
 const resetTodo = document.getElementById('resetTodoBtn');
@@ -74,8 +74,8 @@ studyTimeInput.value = localStorage.getItem('studyTime') || 25;
 restTimeInput.value = localStorage.getItem('restTime') || 5;
 localStorage.setItem('isStudyTime', isStudyTime);
 timerLabel.textContent = isStudyTime ? 'Time to Study! 📚' : 'Rest Time! 😴';
-crossmark1.style.display = "none";
-crossmark2.style.display = "none";
+musicCross.style.display = "none";
+bellCross.style.display = "none";
 
 function updateSessionCount() {
   sessionCountDisplay.textContent = sessionCount;
@@ -547,25 +547,25 @@ musicPlayer.addEventListener("click", () => {
     play = !play;
     if (play) {
         player.playVideo();
-        crossmark2.style.display = "none";
+        musicCross.style.display = "none";
     } else {
         player.pauseVideo();
-        crossmark2.style.display = "block";
+        musicCross.style.display = "block";
     }
     localStorage.setItem('playSound', play);
-});
-
-alarm.addEventListener("click", () => {
-    alarmSound.pause();
-    
 });
 
 stopAlarm.addEventListener("click", () => {
     playAlarm = !playAlarm;
     localStorage.setItem('playAlarm', playAlarm);
     if (!playAlarm) {
-        crossmark1.style.display = "block";
+        bellCross.style.display = "block";
     } else {
-        crossmark1.style.display = "none";
+        bellCross.style.display = "none";
     }
+});
+
+alarm.addEventListener("click", () => {
+    alarmSound.pause();
+    
 });

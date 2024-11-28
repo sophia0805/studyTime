@@ -369,6 +369,7 @@ input[type="number"]::-webkit-outer-spin-button {
     position: absolute;
     top: 85vh;
     right: 2vw;
+    display: flex;
 }
 
 .music-control{
@@ -388,7 +389,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .no {
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -396,22 +396,8 @@ input[type="number"]::-webkit-outer-spin-button {
     pointer-events: none; /* Allows clicking through to the button */
     font-family: "Kiddosy", monospace;
     opacity: 0.7;
-}
-
-.no1{
-    position: absolute;
     font-size: 18vh;
     color: #ff9eb5;
     font-weight: bold;
-    top: 80vh;
-    left: 93.3vw;
-}
-
-.no2{
-    position: absolute;
-    font-size: 18vh;
-    color: #ff9eb5;
-    font-weight: bold;
-    top: 80vh;
-    left: 81vw;
+    transform: translate(22%, -51%);
 }
