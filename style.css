@@ -42,7 +42,7 @@ body {
 }
 
 h2 {
-    font-size: clamp(0.5vw, 8.5vw, 3.5vw);
+    font-size: clamp(0vw, 8.5vw, 3.5vw);
     margin-bottom: 2vh;
     margin-top: 1.2vh;
     font-weight: 400;
