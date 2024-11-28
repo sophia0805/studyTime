@@ -38,6 +38,7 @@ body {
     border: 0.2vh solid #ffcad4;
     position: relative;
     width: 100%;
+    height: 55vh;
 }
 
 h2 {
@@ -172,6 +173,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .reset-card {
     background: rgba(255, 245, 245, 0.9);
     margin-top: 3vh;
+    height: 21.5vh;
 }
 
 .reset-card h3 {
@@ -287,7 +289,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-right: 0vh;
     margin-left: auto;
     width: 30vw;
-    height: 60vh;
+    height: 30vw;
     background-color: #ffffff;
     position: flex;
     padding: 1vh;
