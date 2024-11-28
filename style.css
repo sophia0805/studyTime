@@ -25,7 +25,7 @@ body {
 }
 
 .container {
-    width: 68vh;
+    width: 36vw;
 }
 
 .card {
@@ -95,7 +95,7 @@ h2 {
 }
 
 .time-input {
-    width: 8vh;
+    width: 3vw;
     padding: 0.5vh;
     border: 0.2vh solid #ffcad4;
     border-radius: 1vh;
@@ -103,6 +103,11 @@ h2 {
     font-size: 3vh;
     font-family: 'CatPaw', monospace;
     outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    appearance: none;
 }
 
 .time-input:focus{
@@ -166,7 +171,7 @@ h2 {
 
 .reset-card {
     background: rgba(255, 245, 245, 0.9);
-    margin-top: 4vh;
+    margin-top: 3vh;
 }
 
 .reset-card h3 {
@@ -208,12 +213,12 @@ h2 {
 
 .todo-container {
     position: absolute;
-    left: calc(50% - 17vh);
+    left: calc(36vw + 4vw);
 }
 .todo-card {
     height: 100%;
     overflow-y: auto;
-    width: 100%;
+    width: 26vw;
     height: calc(100vh - 8vh);
 }
 
@@ -281,7 +286,7 @@ h2 {
 .wrapper {
     margin-right: 0vh;
     margin-left: auto;
-    width: 60vh;
+    width: 30vw;
     height: 60vh;
     background-color: #ffffff;
     position: flex;

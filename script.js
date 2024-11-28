@@ -70,7 +70,9 @@ function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
+    if (studyTimeInput.value == 0 || restTimeInput.value == 0 || studyTimeInput.value == null || restTimeInput.value == null) {
+        timerDisplay.textContent = "include a time!";
+    }
     const progressPercent = ((totalTime - timeLeft) / totalTime) * 100;
     progress.style.width = `${progressPercent}%`;
     
@@ -112,9 +114,6 @@ function startTimer() {
 }
 
 function resetTimer() {
-    if (isStudying){
-        
-    }
     progress.style.width = 0;
     saveSettings();
     clearInterval(timerId);
@@ -145,12 +144,13 @@ function setupTimer() {
 
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
-    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
-    if (studyTimeInput.value == 0 || restTimeInput.value == 0 || 
-        studyTimeInput.value == null || restTimeInput.value == null) {
+    if (studyTimeInput.value == 0 || restTimeInput.value == 0 || studyTimeInput.value == null || restTimeInput.value == null) {
         timerDisplay.textContent = "include a time!";
+    } else {
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
+
     timerLabel.textContent = isStudyTime ? 'Time to Study! 📚' : 'Rest Time! 😴';
     
     // Update status message based on current mode
