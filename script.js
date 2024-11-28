@@ -18,6 +18,10 @@ const todoAlert = document.getElementById("Alert");
 const listItems = document.getElementById("todoList");
 const addUpdate = document.getElementById("addTodo");
 
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spin-btn");
+const finalValue = document.getElementById("final-value");
+
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 let timeLeft = 0;
@@ -28,6 +32,7 @@ let sessionCount = parseInt(localStorage.getItem('sessionCount')) || 0;
 let savedTimeLeft = localStorage.getItem('timeLeft') || 0;
 let savedTotalTime = localStorage.getItem('totalTime') || 0;
 let isStudying = false;
+let myChart;
 
 const catMessages = {
     study: [
@@ -196,6 +201,7 @@ resetAll.addEventListener('click', () => {
     if (confirm('Reset everything? ⚠️')) {
         resetAllTimer();
         resetTodoList();
+        myChart.destroy();
     }
 });
 
@@ -217,6 +223,7 @@ function resetAllTimer(){
     studyTimeInput.value = localStorage.getItem('studyTime');
     restTimeInput.value = localStorage.getItem('restTime');
     sessionCountDisplay.textContent = localStorage.getItem('sessionCount');
+    setupTimer();
 }
 
 function resetTodoList() {
@@ -295,6 +302,7 @@ function addTodo() {
     saveTodos();
     renderTodos();
     showAlert('Task added successfully!');
+    updateWheel();
 }
 
 function deleteTodo(index) {
@@ -302,6 +310,7 @@ function deleteTodo(index) {
     saveTodos();
     renderTodos();
     showAlert('Task deleted successfully!');
+    updateWheel()
 }
 
 function toggleTodo(index) {
@@ -309,13 +318,18 @@ function toggleTodo(index) {
     saveTodos();
     renderTodos();
     if (todos[index].completed) {
-        // Automatically delete after 3 seconds
+        // Store the todo's text for identification
+        const todoText = todos[index].text;
         setTimeout(() => {
-            // Check again if the task is still marked as completed before deleting
-            if (todos[index]?.completed) {
-                todos.splice(index, 1);
+            // Find the todo by its text instead of index
+            const currentIndex = todos.findIndex(todo => 
+                todo.text === todoText && todo.completed
+            );
+            if (currentIndex !== -1) {
+                todos.splice(currentIndex, 1);
                 saveTodos();
                 renderTodos();
+                updateWheel();
             }
         }, 1000);
     }
@@ -362,3 +376,124 @@ todoInput.addEventListener('keypress', (e) => {
     }
 });
 addTodoBtn.addEventListener('click', addTodo);
+
+//spin wheel
+function updateWheel() {
+    // Get all todos
+    const todos = Array.from(todoList.children).filter(todo => !todo.classList.contains('completed'));
+    const todoTexts = todos.map(todo => todo.textContent.replace('×', '').trim());
+
+    // If there are no todos, disable spin button and show message
+    if (todos.length === 0) {
+        spinBtn.disabled = true;
+        finalValue.innerHTML = "<p>Add some todos first!</p>";
+        return;
+    } else {
+        finalValue.innerHTML = "<p>Click spin!</p>";
+    }
+
+    spinBtn.disabled = false;
+
+    // Calculate rotation values based on number of todos
+    const segmentSize = 360 / todoTexts.length;
+    const rotationValues = todoTexts.map((_, index) => ({
+        minDegree: index * segmentSize,
+        maxDegree: (index + 1) * segmentSize,
+        value: todoTexts[index]
+    }));
+
+    // Create alternating colors based on number of todos
+    const pieColors = todoTexts.map((_, index) => 
+        index % 2 === 0 ? "#ffcad4" : "#ffd4d4"
+    );
+
+    // If chart exists, destroy it before creating new one
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    // Create new chart
+    myChart = new Chart(wheel, {
+        plugins: [ChartDataLabels],
+        type: "pie",
+        data: {
+            labels: todoTexts,
+            datasets: [{
+                backgroundColor: pieColors,
+                data: new Array(todoTexts.length).fill(1) // Equal segments
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: { duration: 0 },
+            plugins: {
+                tooltip: false,
+                legend: {
+                    display: false,
+                },
+                datalabels: {
+                    color: "#4a4a4a",
+                    formatter: (_, context) => {
+                        const label = context.chart.data.labels[context.dataIndex];
+                        // Truncate long labels
+                        return label.length > 10 ? label.substr(0, 10) + '...' : label;
+                    },
+                    font: { size: 30, family: 'Kiddosy' }
+                }
+            }
+        }
+    });
+
+    return rotationValues;
+}
+
+// Value generator function
+function valueGenerator(angleValue, rotationValues) {
+    for (let i of rotationValues) {
+        if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
+            finalValue.innerHTML = `<p>Do this: ${i.value}</p>`;
+            spinBtn.disabled = false;
+            break;
+        }
+    }
+}
+
+// Initialize variables for spinning
+let count = 0;
+let resultValue = 101;
+
+// Spin button event listener
+spinBtn.addEventListener("click", () => {
+    const rotationValues = updateWheel();
+    if (!rotationValues) return;
+
+    spinBtn.disabled = true;
+    finalValue.innerHTML = `<p>Picking a todo...</p>`;
+    let randomDegree = Math.floor(Math.random() * (355 - 0 + 1) + 0);
+
+    let rotationInterval = window.setInterval(() => {
+        myChart.options.rotation = myChart.options.rotation + resultValue;
+        myChart.update();
+
+        if (myChart.options.rotation >= 360) {
+            count += 1;
+            resultValue -= 5;
+            myChart.options.rotation = 0;
+        } else if (count > 15 && myChart.options.rotation == randomDegree) {
+            valueGenerator(randomDegree, rotationValues);
+            clearInterval(rotationInterval);
+            count = 0;
+            resultValue = 101;
+        }
+    }, 10);
+});
+
+// Update wheel when removing todos
+todoList.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete-todo")) {
+        setTimeout(updateWheel, 0);
+    }
+});
+
+// Initial wheel setup
+document.addEventListener("DOMContentLoaded", updateWheel);
