@@ -41,7 +41,7 @@ body {
 }
 
 h2 {
-    font-size: clamp(5.5vh, 8.5vw, 6.5vh);
+    font-size: clamp(3vh, 8.5vw, 6.5vh);
     margin-bottom: 2vh;
     margin-top: 1.2vh;
     font-weight: 400;
