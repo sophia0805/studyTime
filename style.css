@@ -364,3 +364,21 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 8vh;
     height: 8vh;
 }
+
+.sound{
+    position: absolute;
+    top: 90vh;
+    right: 2vw;
+}
+
+.music-control{
+    padding: 2vh; /* Add some padding */
+    border-radius: 10px;
+    border-color: #ff9eb5;
+}
+
+.alarming{
+    padding: 2vh; /* Add some padding */
+    border-radius: 10px;
+    border-color: #ff9eb5;
+}

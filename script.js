@@ -9,6 +9,10 @@ const studyTimeInput = document.getElementById('studyTime');
 const restTimeInput = document.getElementById('restTime');
 const sessionCountDisplay = document.getElementById('sessionCount');
 
+const musicPlayer = document.getElementById('music');
+const alarm = document.getElementById('alarm');
+const alarmSound = new Audio('sprites/alarm.wav');
+
 const resetTmr = document.getElementById('resetTimerBtn');
 const resetTodo = document.getElementById('resetTodoBtn');
 const resetAll = document.getElementById('resetAllBtn');
@@ -24,6 +28,7 @@ const finalValue = document.getElementById("final-value");
 
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
+let play = true;
 let timeLeft = 0;
 let totalTime = 0;
 let timerId = null;
@@ -33,6 +38,12 @@ let savedTimeLeft = localStorage.getItem('timeLeft') || 0;
 let savedTotalTime = localStorage.getItem('totalTime') || 0;
 let isStudying = false;
 let myChart;
+let player;
+
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 const catMessages = {
     study: [
@@ -92,6 +103,7 @@ function startTimer() {
         catStatus.textContent = getRandomMessage(isStudyTime ? 'study' : 'rest');
       }
       if (timeLeft <= 0) {
+        alarmSound.play();
         clearInterval(timerId);
         timerId = null;
         if (isStudyTime) {
@@ -496,5 +508,40 @@ todoList.addEventListener("click", (e) => {
     }
 });
 
-// Initial wheel setup
 document.addEventListener("DOMContentLoaded", updateWheel);
+
+
+//musicc
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: 'jfKfPfyJRdk',  // Lofi Girl study beats
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'volume': 20  // Set volume to 50%
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // Play/pause with timer
+    player.playVideo();
+}
+
+musicPlayer.addEventListener("click", () => {
+    play = !play;
+    if (play == false){
+        player.pauseVideo();
+    } else {
+        player.playVideo();
+    }
+});
+
+alarm.addEventListener("click", () => {
+    alarmSound.pause();
+});
