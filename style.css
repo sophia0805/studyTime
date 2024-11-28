@@ -367,22 +367,22 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .sound{
     position: absolute;
-    top: 90vh;
+    top: 85vh;
     right: 2vw;
 }
 
 .music-control{
-    padding: 2vh; /* Add some padding */
+    padding: 4vh; /* Add some padding */
     border-radius: 10px;
     border-color: #ff9eb5;
 }
 .alarming{
-    padding: 2vh; /* Add some padding */
+    padding: 4vh; /* Add some padding */
     border-radius: 10px;
     border-color: #ff9eb5;
 }
 .no-more{
-    padding: 2vh; /* Add some padding */
+    padding: 4vh; /* Add some padding */
     border-radius: 10px;
     border-color: #ff9eb5;
 }
@@ -400,18 +400,18 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .no1{
     position: absolute;
-    font-size: 11vh;
+    font-size: 18vh;
     color: #ff9eb5;
     font-weight: bold;
-    top: 87vh;
-    left: 95vw;
+    top: 80vh;
+    left: 93.3vw;
 }
 
 .no2{
     position: absolute;
-    font-size: 11vh;
+    font-size: 18vh;
     color: #ff9eb5;
     font-weight: bold;
-    top: 87vh;
-    left: 86.5vw;
+    top: 80vh;
+    left: 81vw;
 }
