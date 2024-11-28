@@ -42,11 +42,13 @@ body {
 }
 
 h2 {
-    font-size: clamp(0vw, 8.5vw, 3.5vw);
+    font-size: clamp(0.5vw, 8.5vw, 3.5vw);
+    overflow: hidden;
     margin-bottom: 2vh;
     margin-top: 1.2vh;
     font-weight: 400;
     font-family: 'CatPaw', monospace;
+    white-space: nowrap;
 }
 
 .timer {
@@ -185,6 +187,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .reset-controls {
+    font-size: clamp(0vw, 2vw, 1vw);
     display: flex;
     gap: 2vh;
     justify-content: center;
