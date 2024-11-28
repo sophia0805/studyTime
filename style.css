@@ -29,7 +29,6 @@ body {
 }
 
 .card {
-    margin: 0 0 0 2vh;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 2vh;
     padding: 2vh;
@@ -38,7 +37,7 @@ body {
     backdrop-filter: blur(1vh);
     border: 0.2vh solid #ffcad4;
     position: relative;
-    width: 72.8vh;
+    width: 66vh;
 }
 
 h2 {
@@ -194,7 +193,7 @@ h2 {
 .btn.warning {
     background: #ffd4d4;
     border: 0.2vh solid #ffb5b5;
-    font-size: 2.5vh;
+    font-size: 2.3vh;
     font-family: 'Kiddosy', monospace;
 }
 
@@ -211,7 +210,6 @@ h2 {
     height: 100%;
     overflow-y: auto;
     width: 50vh;
-    margin-right: 2vh;
     height: calc(100vh - 8vh);
 }
 
@@ -277,12 +275,12 @@ h2 {
 }
 
 .wrapper {
-    margin-right: 0;
+    margin-right: 0vh;
+    margin-left: auto;
     width: 60vh;
     height: 60vh;
     background-color: #ffffff;
-    position: absolute;
-    left: 140vh;
+    position: flex;
     padding: 1vh;
     border-radius: 1vh;
 }
