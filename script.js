@@ -77,6 +77,10 @@ timerLabel.textContent = isStudyTime ? 'Time to Study! 📚' : 'Rest Time! 😴'
 musicCross.style.display = "none";
 bellCross.style.display = "none";
 
+document.addEventListener('DOMContentLoaded', () => {
+    window.scrollTo(0, 0);
+});
+
 function updateSessionCount() {
   sessionCountDisplay.textContent = sessionCount;
   localStorage.setItem('sessionCount', sessionCount);
