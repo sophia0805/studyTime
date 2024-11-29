@@ -29,6 +29,8 @@ const wheel = document.getElementById("wheel");
 const spinBtn = document.getElementById("spin-btn");
 const finalValue = document.getElementById("final-value");
 
+const messageElement = document.getElementById('message');
+
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 let playAlarm = localStorage.getItem('playAlarm') === 'true' || true;
@@ -40,9 +42,9 @@ let isStudyTime = localStorage.getItem('isStudyTime') === 'true' || true;
 let sessionCount = parseInt(localStorage.getItem('sessionCount')) || 0;
 let savedTimeLeft = localStorage.getItem('timeLeft') || 0;
 let savedTotalTime = localStorage.getItem('totalTime') || 0;
-let isStudying = false;
 let myChart;
 let player;
+let animationInterval;
 
 const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -51,16 +53,16 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 const catMessages = {
     study: [
-      "Kitty is focusing hard with you! 😺",
-      "Keep it up, you're doing paw-some! 🐱",
-      "Studying like a clever cat! 😸",
-      "You're feline great! 😺"
+      "😻u got this!",
+      "almost done yayayay😽",
+      "😿thug it out",
+      "lock in timee🐱"
     ],
     rest: [
-      "Time for a cat nap! 😴",
-      "Stretch like a kitty! 🐱",
-      "Rest your paws! 😺",
-      "Purr-fect time to relax! 😸"
+      "fat nap time🛌",
+      "😾go back to work",
+      "bro what r u doing😼",
+      "🍪i want crumbl"
     ]
 };
 
@@ -108,38 +110,36 @@ function updateDisplay() {
 }
 
 function startTimer() {
-  if (timerId === null) {
-    isStudying = true;
-    timerId = setInterval(() => {
-      timeLeft--;
-      updateDisplay();
-      if (timeLeft % 30 === 0) {
-        catStatus.textContent = getRandomMessage(isStudyTime ? 'study' : 'rest');
-      }
-      if (timeLeft <= 0) {
-        if (playAlarm){alarmSound.play();}
+    if (timerId === null) {
+        startAnimating();
+        timerId = setInterval(() => {
+        timeLeft--;
+        updateDisplay();
+        if (timeLeft <= 0) {
+            if (playAlarm){alarmSound.play();}
+            clearInterval(timerId);
+            timerId = null;
+            if (isStudyTime) {
+                sessionCount++;
+                updateSessionCount();
+            }
+            progress.style.width = 0;
+            // Force a click on the start button
+            startButton.click();
+            toggleMode();
+        }
+        }, 1000);
+        startButton.textContent = 'Pause';
+    } else {
         clearInterval(timerId);
         timerId = null;
-        if (isStudyTime) {
-            sessionCount++;
-            updateSessionCount();
-        }
-        progress.style.width = 0;
-        // Force a click on the start button
-        startButton.click();
-        toggleMode();
-      }
-    }, 1000);
-    startButton.textContent = 'Pause';
-  } else {
-    isStudying = false;
-    clearInterval(timerId);
-    timerId = null;
-    startButton.textContent = 'Start';
-  }
+        startButton.textContent = 'Start';
+        stopAnimating();
+    }
 }
 
 function resetTimer() {
+    stopAnimating();
     progress.style.width = 0;
     saveSettings();
     clearInterval(timerId);
@@ -192,6 +192,39 @@ function toggleMode() {
     setupTimer();
 }
 
+function animateMessage() {
+    const message = getRandomMessage(isStudyTime ? 'study' : 'rest');
+    const randomX = Math.random() * (window.innerWidth - 200);
+    const randomY = -1 * Math.random() * (window.innerHeight - 200);
+
+    messageElement.style.left = `${randomX}px`;
+    messageElement.style.transform = 'translateY(0)';
+    messageElement.textContent = message;
+
+    setTimeout(() => {
+        messageElement.style.transform =  `translateY(${randomY}px)`;
+    }, 100);
+
+    setTimeout(() => {
+        messageElement.style.transform = 'translateY(0)';
+    }, 2500);
+}
+
+function startAnimating() {
+    if (!animationInterval) {
+        animateMessage();
+        animationInterval = setInterval(animateMessage, 10000);
+    }
+}
+
+function stopAnimating() {
+    if (animationInterval) {
+        clearInterval(animationInterval);
+        animationInterval = null;
+        messageElement.style.transform = 'translateY(0)';
+    }
+}
+
 studyTimeInput.addEventListener('change', resetTimer);
 restTimeInput.addEventListener('change', resetTimer);
 startButton.addEventListener('click', startTimer);
@@ -228,10 +261,15 @@ resetAll.addEventListener('click', () => {
         resetAllTimer();
         resetTodoList();
         myChart.destroy();
+        localStorage.setItem('playAlarm', true);
+        localStorage.setItem('playSound', true);
+        playSound = true;
+        playAlarm = true;
     }
 });
 
 function resetAllTimer(){
+    stopAnimating();
     progress.style.width = 0;
     clearInterval(timerId);
     timeLeft = 0;
@@ -404,14 +442,14 @@ todoInput.addEventListener('keypress', (e) => {
 });
 addTodoBtn.addEventListener('click', addTodo);
 
+let todoTexts;
 //spin wheel
 function updateWheel() {
-    // Get all todos
     const todos = Array.from(todoList.children).filter(todo => !todo.classList.contains('completed'));
-    const todoTexts = todos.map(todo => todo.textContent.replace('×', '').trim());
-
-    // If there are no todos, disable spin button and show message
-    if (todos.length === 0) {
+    todoTexts = todos.map(todo => todo.textContent.replace('×', '').trim());
+    spinBtn.disabled = false;
+    console.log(todoTexts);
+    if (todoTexts.length === 0) {
         spinBtn.disabled = true;
         finalValue.innerHTML = "<p>Add some todos first!</p>";
         return;
@@ -419,40 +457,21 @@ function updateWheel() {
         finalValue.innerHTML = "<p>Click spin!</p>";
     }
 
-    spinBtn.disabled = false;
+    const data = {
+        labels: todoTexts,
+        datasets: [{
+            backgroundColor: todoTexts.map((_, index) => index % 2 === 0 ? "#ffcad4" : "#ffd4d4"),
+            data: todoTexts.map(() => 1),
+        }]
+    };
 
-    // Calculate rotation values based on number of todos
-    const segmentSize = 360 / todoTexts.length;
-    const rotationValues = todoTexts.map((_, index) => ({
-        minDegree: index * segmentSize,
-        maxDegree: (index + 1) * segmentSize,
-        value: todoTexts[index]
-    }));
-
-    // Create alternating colors based on number of todos
-    const pieColors = todoTexts.map((_, index) => 
-        index % 2 === 0 ? "#ffcad4" : "#ffd4d4"
-    );
-
-    // If chart exists, destroy it before creating new one
-    if (myChart) {
-        myChart.destroy();
-    }
-
-    // Create new chart
+    if (myChart) myChart.destroy();
     myChart = new Chart(wheel, {
         plugins: [ChartDataLabels],
-        type: "pie",
-        data: {
-            labels: todoTexts,
-            datasets: [{
-                backgroundColor: pieColors,
-                data: new Array(todoTexts.length).fill(1) // Equal segments
-            }]
-        },
+        type: 'pie',
+        data: data,
         options: {
             responsive: true,
-            animation: { duration: 0 },
             plugins: {
                 tooltip: false,
                 legend: {
@@ -462,22 +481,116 @@ function updateWheel() {
                     color: "#4a4a4a",
                     formatter: (_, context) => {
                         const label = context.chart.data.labels[context.dataIndex];
-                        // Truncate long labels
-                        return label.length > 10 ? label.substr(0, 10) + '...' : label;
+                        return label.length > 8 ? label.substr(0, 8) + '...' : label;
                     },
-                    font: { size: 30, family: 'Kiddosy' }
+                    font: { size: 20, family: 'Kiddosy' }
+                }
+            },
+            animation: { duration: 0 },
+            rotation: 90
+        }
+    });
+}
+
+function spin() {
+    const degrees = 1800 + (Math.floor((Math.random() * 350))+10);
+    console.log("degrees " + (degrees-1800));
+    let rotation = 90;
+    let speed = 101;
+    let speed2 = 20;
+    spinBtn.disabled = true;
+    finalValue.innerHTML = `<p>Picking a todo...</p>`;
+    function animate() {
+        if (rotation < 1800){
+            rotation += speed;
+            speed = Math.max(30, speed - 5); // Won't go below 5
+        } else {
+            rotation += speed2;
+            speed2 = Math.max(2, speed2 - 1); // Won't go below 0.5
+        }
+        myChart.options.rotation = rotation;
+        myChart.update();
+
+        if (rotation < degrees + 90) {
+            requestAnimationFrame(animate);
+        } else {
+            // Shifted the index calculation by adding items.length/2 to move winner to right
+            const winner = todoTexts[Math.floor((360 - ((rotation-90) % 360)) / (360 / todoTexts.length)) % todoTexts.length];
+            finalValue.innerHTML = 'Selected: <span class="highlight">' + winner + '</span>';
+            spinBtn.disabled = false;
+        }
+    }
+    animate();
+}
+
+spinBtn.addEventListener("click", () => {
+    spin();
+});
+/*
+function updateWheel() {
+    const todos = Array.from(todoList.children).filter(todo => !todo.classList.contains('completed'));
+    const todoTexts = todos.map(todo => todo.textContent.replace('×', '').trim());
+    
+    if (todos.length === 0) {
+        spinBtn.disabled = true;
+        finalValue.innerHTML = "<p>Add some todos first!</p>";
+        return;
+    } else {
+        finalValue.innerHTML = "<p>Click spin!</p>";
+    }
+
+    spinBtn.disabled = false;
+    segmentSize = 360 / todoTexts.length;
+    
+    // Adjust rotation values to make right side the winner
+    const rotationValues = todoTexts.map((_, index) => ({
+        minDegree: (index * segmentSize + 90) % 360,
+        maxDegree: ((index + 1) * segmentSize + 90) % 360,
+        value: todoTexts[index]
+    }));
+
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    myChart = new Chart(wheel, {
+        plugins: [ChartDataLabels],
+        type: "pie",
+        data: {
+            labels: todoTexts,
+            datasets: [{
+                backgroundColor: todoTexts.map((_, index) => index % 2 === 0 ? "#ffcad4" : "#ffd4d4"),
+                data: new Array(todoTexts.length).fill(1)
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: { duration: 0 },
+            rotation: 90, // Start with right side as winner
+            plugins: {
+                tooltip: false,
+                legend: {
+                    display: false,
+                },
+                datalabels: {
+                    color: "#4a4a4a",
+                    formatter: (_, context) => {
+                        const label = context.chart.data.labels[context.dataIndex];
+                        return label.length > 8 ? label.substr(0, 8) + '...' : label;
+                    },
+                    font: { size: 20, family: 'Kiddosy' }
                 }
             }
         }
     });
-
     return rotationValues;
 }
 
-// Value generator function
 function valueGenerator(angleValue, rotationValues) {
+    // Adjust angle value to account for 90-degree offset
+    const adjustedAngle = (angleValue + 270) % 360;
     for (let i of rotationValues) {
-        if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
+        if (adjustedAngle >= i.minDegree && adjustedAngle < i.maxDegree) {
             finalValue.innerHTML = `<p>Do this: ${i.value}</p>`;
             spinBtn.disabled = false;
             break;
@@ -485,27 +598,25 @@ function valueGenerator(angleValue, rotationValues) {
     }
 }
 
-// Initialize variables for spinning
 let count = 0;
 let resultValue = 101;
 
-// Spin button event listener
 spinBtn.addEventListener("click", () => {
     const rotationValues = updateWheel();
     if (!rotationValues) return;
-
+    
     spinBtn.disabled = true;
     finalValue.innerHTML = `<p>Picking a todo...</p>`;
-    let randomDegree = Math.floor(Math.random() * (355 - 0 + 1) + 0);
-
+    let randomDegree = Math.floor(Math.random() * (350) + 10);
+    
     let rotationInterval = window.setInterval(() => {
         myChart.options.rotation = myChart.options.rotation + resultValue;
         myChart.update();
-
+        
         if (myChart.options.rotation >= 360) {
             count += 1;
             resultValue -= 5;
-            myChart.options.rotation = 0;
+            myChart.options.rotation = (myChart.options.rotation) % 360;
         } else if (count > 15 && myChart.options.rotation == randomDegree) {
             valueGenerator(randomDegree, rotationValues);
             clearInterval(rotationInterval);
@@ -513,8 +624,7 @@ spinBtn.addEventListener("click", () => {
             resultValue = 101;
         }
     }, 10);
-});
-
+});*/
 // Update wheel when removing todos
 todoList.addEventListener("click", (e) => {
     if (e.target.classList.contains("delete-todo")) {

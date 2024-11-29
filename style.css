@@ -340,7 +340,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .img2 {
     position: absolute;
     width: 4vh;
-    top: 45%;
+    top: calc(50% - 4vh);
     right: -8%;
 }
 
@@ -399,5 +399,17 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 18vh;
     color: #ff9eb5;
     font-weight: bold;
-    transform: translate(calc(50% - 2.2vw), calc(-50% - 0.5vh));
+    transform: translate(calc(50% - 1.7vw), calc(-50% - 0.5vh));
+}
+
+#message {
+    position: absolute;
+    bottom: -50px;
+    padding: 10px 20px;
+    background-color: #dfbbc3;
+    color: white;
+    border-radius: 20px;
+    transition: transform 0.5s ease-out;
+    z-index: 1000;
+    opacity: 0.9;
 }
